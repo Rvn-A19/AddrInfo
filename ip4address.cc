@@ -17,7 +17,8 @@ Ip4Address::Ip4Address(const std::string & name) {
     elem = head;
     for (; elem; elem = elem->ai_next) {
       ip_pointer = reinterpret_cast<struct sockaddr_in *>(elem->ai_addr);
-      inet_ntop(AF_INET, &ip_pointer->sin_addr, ipstr_address, sizeof(struct sockaddr_in));
+      inet_ntop(elem->ai_family, &ip_pointer->sin_addr, ipstr_address, elem->ai_family == AF_INET ? sizeof(struct sockaddr_in) :
+                                                                                                    sizeof(struct sockaddr_in6));
       addresses.push_back(ipstr_address);
     }
   }
