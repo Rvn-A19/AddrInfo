@@ -1,0 +1,17 @@
+
+CC = g++
+CXXFLAGS = -Wall -O2
+COMPILE = -c
+OUTPUT = addrinfo
+
+all: addrinfo
+
+addrinfo: ip4address.o
+	$(CC) addrinfo.cc ip4address.o $(CFLAGS) -o $(OUTPUT)
+
+ip4address.o:
+	$(CC) $(COMPILE) ip4address.cc $(CFLAGS)
+
+clean:
+	rm $(OUTPUT) ip4address.o
+
