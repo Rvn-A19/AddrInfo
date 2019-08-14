@@ -33,8 +33,8 @@ Ip4Address::~Ip4Address() {
 }
 
 
-const std::string Ip4Address::operator[](unsigned long idx) const {
-  if (idx >= len) return "";
+const std::string & Ip4Address::operator[](unsigned long idx) const {
+  if (idx >= len) return null_string_;
   return addresses[idx];
 }
 

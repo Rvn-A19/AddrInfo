@@ -24,12 +24,13 @@ class Ip4Address {
 public:
   Ip4Address(const std::string & name);
   ~Ip4Address();
-  const std::string operator [](unsigned long idx) const;
+  const std::string & operator [](unsigned long idx) const;
   unsigned long Len();
   int Error();
   const char * StrError();
 
 private:
+  const std::string null_string_ = "";
   std::vector<std::string> addresses;
   char ipstr_address[INET_ADDRSTRLEN];
   struct sockaddr_in *ip_pointer;
