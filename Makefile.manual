@@ -4,14 +4,17 @@ CXXFLAGS = -Wall -O2
 COMPILE = -c
 OUTPUT = addrinfo
 
-all: addrinfo
+all: addrinfo testhttp
+
+testhttp: ip4address.o
+	$(CC) testhttp.cc ip4address.o $(CXXFLAGS) -o testhttp
 
 addrinfo: ip4address.o
-	$(CC) addrinfo.cc ip4address.o $(CFLAGS) -o $(OUTPUT)
+	$(CC) addrinfo.cc ip4address.o $(CXXFLAGS) -o $(OUTPUT)
 
 ip4address.o:
-	$(CC) $(COMPILE) ip4address.cc $(CFLAGS)
+	$(CC) $(COMPILE) ip4address.cc $(CXXFLAGS)
 
 clean:
-	rm $(OUTPUT) ip4address.o
+	rm $(OUTPUT) testhttp ip4address.o
 

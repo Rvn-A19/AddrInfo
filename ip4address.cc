@@ -6,17 +6,18 @@
 #include "ip4address.h"
 
 
-Ip4Address::Ip4Address(const std::string & name) {
+Ip4Address::Ip4Address(const std::string & name, const char *service) {
   head = nullptr;
   elem = nullptr;
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
-  err = getaddrinfo(name.c_str(), nullptr, &hints, &head);
+  err = getaddrinfo(name.c_str(), service, &hints, &head);
   if (err == 0) {
     elem = head;
     for (; elem; elem = elem->ai_next) {
       ip_pointer = reinterpret_cast<struct sockaddr_in *>(elem->ai_addr);
+      binary_addresses.push_back(* reinterpret_cast<struct sockaddr_in *>(elem->ai_addr));
       inet_ntop(elem->ai_family, &ip_pointer->sin_addr, ipstr_address, elem->ai_family == AF_INET ? sizeof(struct sockaddr_in) :
                                                                                                     sizeof(struct sockaddr_in6));
       addresses.push_back(ipstr_address);
@@ -36,6 +37,11 @@ Ip4Address::~Ip4Address() {
 const std::string & Ip4Address::operator[](unsigned long idx) const {
   if (idx >= len) return null_string_;
   return addresses[idx];
+}
+
+
+const struct sockaddr_in & Ip4Address::GetBinaryAt(unsigned long idx) const {
+  return binary_addresses[idx];
 }
 
 
